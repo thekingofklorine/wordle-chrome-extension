@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "Wordle Extension",
+    "description": "Gives you a guess to help elimante as many words as possible",
+    "version": "1.0",
+    "action": {
+      "default_popup": "wordle.html"
+    },
+    "icons": {
+      "16": "img/gw16.png",
+      "32": "img/gw32.png",
+      "48": "img/gw48.png",
+      "128": "img/gw128.png"
+    },
+    "content_scripts": [
+      {
+        "js": ["scripts/content.js"],
+        "matches": [
+          "https://www.nytimes.com/games/wordle/index.html"
+        ]
+      }
+    ]
+    
+  }
