@@ -1,22 +1,26 @@
+var url = "https://raw.githubusercontent.com/tabatkins/wordle-list/main/words" //the url to get the words
+const block = document.getElementById("wordle-app-game") //on start up try to look for this in html
 
-const block = document.getElementById("wordle-app-game")
-if(block != null){ 
+if(block != null){                              //if that location exists place my html
     const badge = document.createElement("p");
     badge.id = "BrianCrane"
     const button = document.createElement("BUTTON")
     var text = document.createTextNode("Refresh Guess");    
     button.className = "Key-module_key__Rv-Vp"         
     button.appendChild(text);
-    button.onclick = function(){runMe()}
+    button.onclick = function(){runMe()}        //when button is pressed it runs the word algorithm
     badge.style.textAlign = "center"
     badge.textContent = "Click button to refresh guess"
     block.insertAdjacentElement("afterbegin", button)
     block.insertAdjacentElement("afterbegin", badge)
-}else{
+}else{                                          //if it doesn't exist the console with read an error
     console.log("was null")
 }
 
-function runMe(){
+function runMe(){                     //entered from button press
+
+  getWords(url);                      //get the words from the url
+
   function getWords (theUrl){
     var array = [];
     fetch(theUrl)
@@ -36,7 +40,6 @@ function runMe(){
     
     function filterArray(theFullArray){
       var lettersKnown = []; //total letters known
-      var lettersCorrect = [] //dont do other things when we got one right
       var docArray = []; //the phrase from the page "e absent"
       var adjustedArray = []; //words in the bank
       var fromDoc = document.getElementsByClassName("Row-module_row__dEHfN")  
@@ -92,7 +95,7 @@ function runMe(){
       }
 
       if(lettersKnown.length == 5) {
-        for(var j = 0; j < adjustedArray.length; j++){  //if we have all 5 letters eliminate the rest
+        for(var j = 0; j < adjustedArray.length; j++){  //if we have all 5 letters eliminate the rest of the letters
           if(!adjustedArray[j].includes(lettersKnown[0]) || 
           !adjustedArray[j].includes(lettersKnown[1]) || 
           !adjustedArray[j].includes(lettersKnown[2]) || 
@@ -197,7 +200,5 @@ function runMe(){
       return newArray[0]
     }
   }
-  var url = "https://raw.githubusercontent.com/tabatkins/wordle-list/main/words"
-  var wordArray = getWords(url);
 }
 
