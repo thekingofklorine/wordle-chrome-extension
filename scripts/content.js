@@ -8,6 +8,8 @@ if(block != null){                              //if that location exists place 
     var text = document.createTextNode("Refresh Guess");    
     button.className = "Key-module_key__Rv-Vp"         
     button.appendChild(text);
+    button.style.width = '33%'
+    button.style.margin = 'auto'
     button.onclick = function(){runMe()}        //when button is pressed it runs the word algorithm
     badge.style.textAlign = "center"
     badge.textContent = "Click button to refresh guess"
