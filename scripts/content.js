@@ -1,4 +1,3 @@
-console.log("This is a content!")
 
 const block = document.getElementById("wordle-app-game")
 if(block != null){ 
@@ -51,9 +50,7 @@ function runMe(){
           }
         }
       }
-
       adjustedArray = [...theFullArray]
-      console.log(docArray.length)
       for(var i = 0; i < docArray.length; i++){
         
         if(docArray[i].includes("absent")){
@@ -61,7 +58,6 @@ function runMe(){
             if(adjustedArray[j].includes(docArray[i].charAt(0))){ //char at 0 is the letter, if absent but its there remove it
               adjustedArray.splice(j,1)
               j--
-              // console.log("deleted")
             }
           }
         }
