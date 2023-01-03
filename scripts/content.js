@@ -2,16 +2,13 @@ console.log("This is a content!")
 
 const block = document.getElementById("wordle-app-game")
 if(block != null){ 
-    // console.log("found it") 
     const badge = document.createElement("p");
     badge.id = "BrianCrane"
-
     const button = document.createElement("BUTTON")
     var text = document.createTextNode("Refresh Guess");    
     button.className = "Key-module_key__Rv-Vp"         
     button.appendChild(text);
     button.onclick = function(){runMe()}
-
     badge.style.textAlign = "center"
     badge.textContent = "Click button to refresh guess"
     block.insertAdjacentElement("afterbegin", button)
@@ -21,10 +18,8 @@ if(block != null){
 }
 
 function runMe(){
-  //console.log("button pressed")
   function getWords (theUrl){
     var array = [];
-    // console.log(theUrl)
     fetch(theUrl)
     .then(response => {
     if (!response.ok) {
@@ -32,17 +27,11 @@ function runMe(){
     }
     response.text()
     .then(t1 => {
-    //console.log({ t1 }); // after calling text() we can see the result here
     var wArray = t1.split("\n")
     array = wArray
     var bestWord = "bestword"
-    //
-// this is where you take wArray and change it based on the criteria
     wArray = filterArray(wArray)
-    // 
-    //this is where you take the possible words and create a best word
     bestWord = chooseBestWord(wArray)
-    //   console.log(bestWord)
     document.getElementById('BrianCrane').textContent = bestWord;
     return wArray; // but we decided to return the response to the next handler
     
@@ -84,7 +73,6 @@ function runMe(){
             if(adjustedArray[k].charAt(i % 5) != docArray[i].charAt(0)){  // if the letter in the master list at modulo 5 is equal to the first thing
               adjustedArray.splice(k,1)
               k--
-              // console.log("deleted")
             } //char at 0 is the letter, if absent but its there remove it
           }
         }
@@ -97,7 +85,6 @@ function runMe(){
               if(adjustedArray[l].charAt(i % 5) == docArray[i].charAt(0)){  // if the letter in the master list at modulo 5 is equal to the first thing
                 adjustedArray.splice(l,1)
                 l--
-                // console.log("deleted")
               } 
             } else{  //if it doenst have the letter
               adjustedArray.splice(l,1)
@@ -120,28 +107,6 @@ function runMe(){
           }
         }
       }
-
-      // for(var i = 0; i < docArray.length; i++){
-      //     if(fromDoc[i] == null) { break }
-      //     if(fromDoc[i].includes("absent")){
-      //       for(var j = 0; j < adjustedArray.size; j++){
-      //           if(adjustedArray[j].includes(fromDoc[i].charAt(0))) //char at 0 is the letter, if absent but its there remove it
-      //           adjustedArray.splice(j,1)
-      //           j--
-      //       }
-      //     }
-      //     if(fromDoc[i].includes("present")){
-
-      //     }
-      //     if(fromDoc[i].includes("correct")){
-
-      //     }
-
-      //   }
-      // console.log(adjustedArray.length)
-      console.log(adjustedArray)
-      // console.log(fromDoc)
-      console.log(docArray)
 
       return adjustedArray
     }
