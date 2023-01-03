@@ -33,55 +33,56 @@ function runMe(){                     //entered from button press
     var wArray = t1.split("\n")
     array = wArray
     var bestWord = "bestword"
-    wArray = filterArray(wArray)
-    bestWord = chooseBestWord(wArray)
-    document.getElementById('BrianCrane').textContent = bestWord;
-    return wArray; // but we decided to return the response to the next handler
+    wArray = filterArray(wArray)          //pass in the initial huge array recive the narrowed down array
+    bestWord = chooseBestWord(wArray)             //take your array and choose the most common word
+    document.getElementById('BrianCrane').textContent = bestWord;   //replace the HTML text with the best word
+    // return wArray; // but we decided to return the response to the next handler
     
     function filterArray(theFullArray){
-      var lettersKnown = []; //total letters known
-      var docArray = []; //the phrase from the page "e absent"
-      var adjustedArray = []; //words in the bank
-      var fromDoc = document.getElementsByClassName("Row-module_row__dEHfN")  
+      var lettersKnown = []; //total letters known (when it reaches 5 we remove all other letters)
+      var docArray = []; //the phrase from the page "e absent" for example
+      var adjustedArray = [...theFullArray]; //words in the bank
+      var fromDoc = document.getElementsByClassName("Row-module_row__dEHfN")  //get the info from the page
     
-      for(var i = 0; i < 6; i++){ //six is the number of rows
+      for(var i = 0; i < 6; i++){                         //six is the number of rows
         const notChild = fromDoc[i].children
         for(var j = 0; j < 5; j++){
-          const child = notChild[j].children[0].ariaLabel
-          if(child.includes(" ")){
+          const child = notChild[j].children[0].ariaLabel //picks out the info we want to use
+          if(child.includes(" ")){      //if the row has not been guessed yet there is no space, we only want guessed rows
             docArray.push(child)
           }
         }
       }
-      adjustedArray = [...theFullArray]
+
       for(var i = 0; i < docArray.length; i++){
-        
-        if(docArray[i].includes("absent")){
+        if(docArray[i].includes("absent")){       //greyed out letters are absent
           for(var j = 0; j < adjustedArray.length; j++){
             if(adjustedArray[j].includes(docArray[i].charAt(0))){ //char at 0 is the letter, if absent but its there remove it
               adjustedArray.splice(j,1)
-              j--
+              j--     //since we removed an index in the array, we must adjust the count
             }
           }
         }
         if(docArray[i].includes("correct")){
-          if(!lettersKnown.includes(docArray[i].charAt(0))){ //push every new letter into
-            lettersKnown.push(docArray[i].charAt(0))
+          var myLetter = docArray[i].charAt(0) //the letter guesesed is stored at beginning "e correct" 
+          if(!lettersKnown.includes(myLetter)){ //check if its in letters known
+            lettersKnown.push(myLetter)
           }
           for(var k = 0; k < adjustedArray.length; k++){
-            if(adjustedArray[k].charAt(i % 5) != docArray[i].charAt(0)){  // if the letter in the master list at modulo 5 is equal to the first thing
+            if(adjustedArray[k].charAt(i % 5) != myLetter){  // % 5 of the docArray index gives us which spot the letter was in
               adjustedArray.splice(k,1)
               k--
-            } //char at 0 is the letter, if absent but its there remove it
+            }
           }
         }
         if(docArray[i].includes("present")){
-          if(!lettersKnown.includes(docArray[i].charAt(0))){ //push every new letter into
-            lettersKnown.push(docArray[i].charAt(0))
+          var myLetter = docArray[i].charAt(0) //the letter guesesed is stored at beginning "e present" 
+          if(!lettersKnown.includes(myLetter)){ //push every new letter into
+            lettersKnown.push(myLetter)
           }
           for(var l = 0; l < adjustedArray.length; l++){
-            if(adjustedArray[l].includes(docArray[i].charAt(0))){
-              if(adjustedArray[l].charAt(i % 5) == docArray[i].charAt(0)){  // if the letter in the master list at modulo 5 is equal to the first thing
+            if(adjustedArray[l].includes(myLetter)){
+              if(adjustedArray[l].charAt(i % 5) == myLetter){  // if its in the spot that is bad
                 adjustedArray.splice(l,1)
                 l--
               } 
@@ -89,14 +90,14 @@ function runMe(){                     //entered from button press
               adjustedArray.splice(l,1)
               l--
             }
-            //char at 0 is the letter, if absent but its there remove it
           }
         }
       }
 
       if(lettersKnown.length == 5) {
         for(var j = 0; j < adjustedArray.length; j++){  //if we have all 5 letters eliminate the rest of the letters
-          if(!adjustedArray[j].includes(lettersKnown[0]) || 
+          if(
+          !adjustedArray[j].includes(lettersKnown[0]) || 
           !adjustedArray[j].includes(lettersKnown[1]) || 
           !adjustedArray[j].includes(lettersKnown[2]) || 
           !adjustedArray[j].includes(lettersKnown[3]) || 
@@ -106,7 +107,6 @@ function runMe(){                     //entered from button press
           }
         }
       }
-
       return adjustedArray
     }
   
@@ -118,71 +118,71 @@ function runMe(){                     //entered from button press
   }
   
   function chooseBestWord(array){
-    var word ="default"
+    var word ="default"           //if there is an issue it will return default
     const letterArray = []
     for(var i = 0; i < 26; i++){
       var count = 0;
       for(var j = 0; j < array.length; j++){
-        var chr = String.fromCharCode(97 + i)
-        if(array[j].includes(chr)){
+        var chr = String.fromCharCode(97 + i) //this is how to get iterate a through z
+        if(array[j].includes(chr)){   //we are counting the how many words use each letter
           count++
         }
       }
       letterArray.push(count)
     }
-    var letterArrayOrder = [...letterArray]
-    letterArrayOrder.sort(function(a, b){return b - a});
-    var biggest = letterArrayOrder[0]
-    var buildWord = getTheLetter(biggest)//this tosses in the first letter
-    var lap = 0
-    while(buildWord.length < 5){
+    var letterArrayOrder = [...letterArray]   //we make a copy of the count
+    letterArrayOrder.sort(function(a, b){return b - a}); //and sort from highest to lowest
+    var biggest = letterArrayOrder[0]    //the first is the most common letter
+    var buildWord = getTheLetter(biggest)//this tosses in the letter to our options, it checks the two arrays against each other
+    var lap = 0                          //this is to keep track of which is the next letter to check since we will be skipping some
+    while(buildWord.length < 5){         //wordle is 5 letters long
       var next = letterArrayOrder[lap+1]
       var letter = getTheLetter(next) 
-      if(isThereAWord(buildWord, letter)){
-        buildWord = buildWord + letter
+      if(isThereAWord(buildWord, letter)){    //checks to see if there is a word that contains all the letters added so far and the next most common one
+        buildWord = buildWord + letter 
       }
       lap++
     }
   
-    word = getWord(buildWord)
+    word = getWord(buildWord)  //we get the 5 letters that are most common and make a word in most common order, this unscrambles it
     return word
   
-    function getTheLetter(number){
+    function getTheLetter(number){  
       var guess = 0
       for(var j = 0; j < 26; j++){
-        if (letterArray[j] == number){
+        if (letterArray[j] == number){  //iterate through the alpha order and if the count of that order is the same
           guess = j
           break
         }
       }
-      return String.fromCharCode(97 + guess)
+      return String.fromCharCode(97 + guess)   //we return the index converted to a char
     }
   
     function isThereAWord(theWord, letter){  //see if letters can make a word from list
       var newArray = [...array]
       for(var i = 0; i < theWord.length; i++){
         for(var j = 0; j < newArray.length; j++){
-          if(!newArray[j].includes(theWord[i])){
+          if(!newArray[j].includes(theWord[i])){  //if the array doesnt include the letters so far 
             newArray.splice(j,1)
             j--
             continue
           }
-          if(i == 0 && !newArray[j].includes(letter)){
+          if(i == 0 && !newArray[j].includes(letter)){ //and the new letter
             newArray.splice(j,1)
             j--
           }
         }
-        if(newArray.length == 0){ //if there is no more words left its bad
+        if(newArray.length == 0){ //there is no more words left so the combo is bad
           return false
         }
       }
-      return true
+      return true //if there are words remaining we are good to go
     }
   
     function getWord(theWord){
       var newArray = [...array]
       for(var i = 0; i < theWord.length; i++){
-        for(var j = 0; j < newArray.length; j++){
+        for(var j = 0; j < newArray.length; j++){ //same process as is there a word
           if(!newArray[j].includes(theWord[i])){
             newArray.splice(j,1)
             j--
@@ -193,11 +193,11 @@ function runMe(){                     //entered from button press
             j--
           }
         }
-        if(newArray.length == 0){ //if there is no more words left its bad
+        if(newArray.length == 0){ //if there is no more words left its bad previous function failed
           return "bad maths"
         }
       }
-      return newArray[0]
+      return newArray[0]    //returns the first of the leftover words
     }
   }
 }
