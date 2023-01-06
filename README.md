@@ -1,7 +1,7 @@
 To Upload the extension to chrome:
 go to chrome://extensions/ in chrome
 In the top right toggle the button for Developer Mode to on
-![develop screenshot](/img/develop.png?raw=true "Develop Screenshot")
+![develop screenshot](img/develop.png?raw=true "Develop Screenshot")
 Then additinal options should pop up on the top left side, click on Load Unpacked
 Choose the folder from wherever it was downloaded
 Open up wordle, and play
