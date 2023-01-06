@@ -109,6 +109,7 @@ function runMe(){                     //entered from button press
           }
         }
       }
+      console.log(adjustedArray)
       return adjustedArray
     }
   
