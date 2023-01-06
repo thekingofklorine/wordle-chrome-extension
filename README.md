@@ -1,13 +1,16 @@
 To Upload the extension to chrome:
-go to chrome://extensions/ in chrome
+First go to chrome://extensions/ in chrome.
 In the top right toggle the button for Developer Mode to on
 ![develop screenshot](img/develop.PNG?raw=true "Develop Screenshot")
 Then additinal options should pop up on the top left side, click on Load Unpacked
-Choose the folder from wherever it was downloaded
+![unpack screenshot](img/unpack.PNG?raw=true "Unpack Screenshot")
+Choose the folder from wherever it was downloaded. You should see a Green W in your extensions.
+![extension screenshot](img/extension.PNG?raw=true "Extension Screenshot")
 Open up wordle, and play
 
 To use:
 When you want help with, click on the refresh button and it will give you a word
+![guess screenshot](img/guess.PNG?raw=true "Guess Screenshot")
 After submitting a new response if you want help again, hit the button
 
 Explanation:
