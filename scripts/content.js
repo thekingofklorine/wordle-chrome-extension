@@ -44,7 +44,7 @@ function runMe(){                     //entered from button press
       var lettersKnown = []; //total letters known (when it reaches 5 we remove all other letters)
       var docArray = []; //the phrase from the page "e absent" for example
       var adjustedArray = [...theFullArray]; //words in the bank
-      var fromDoc = document.getElementsByClassName("Row-module_row__dEHfN")  //get the info from the page
+      var fromDoc = document.getElementsByClassName("Row-module_row__pwpBq")  //get the info from the page
     
       for(var i = 0; i < 6; i++){                         //six is the number of rows
         const notChild = fromDoc[i].children
